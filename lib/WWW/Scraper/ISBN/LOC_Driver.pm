@@ -9,7 +9,7 @@ use WWW::Scraper::ISBN::Driver;
 
 our @ISA = qw(WWW::Scraper::ISBN::Driver);
 
-our $VERSION = '0.22';
+our $VERSION = '0.23';
 
 sub search {
 	my $self = shift;
