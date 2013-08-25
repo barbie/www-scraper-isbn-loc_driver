@@ -1,5 +1,7 @@
-Revision history for Perl extension WWW::Scraper::ISBN::LOC_Driver.
+Revision history for WWW::Scraper::ISBN::LOC_Driver
+===================================================
 
+0.22    2013-08-25
         - New Maintainer: Barbie.
         - move module into lib directory structure.
         - change file dates changed to meet W3CDTF standards.

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                     WWW-Scraper-ISBN-LOC_Driver
-version:                  0.21
+version:                  0.22
 abstract:                 Searches Library of Congress' online catalog for book information
 author:
   - Andy Schamp <andy@schamp.net>
@@ -12,9 +12,9 @@ installdirs:              site
 
 requires:
   perl:                           5.006
-	HTTP::Request::Common           1.19
-	LWP::UserAgent                  2.00
-	WWW::Scraper::ISBN::Driver      0.15
+  HTTP::Request::Common:          1.19
+  LWP::UserAgent:                 2.00
+  WWW::Scraper::ISBN::Driver:     0.15
 recommends:
   Test::CPAN::Meta:               0
   Test::CPAN::Meta::JSON:         0
@@ -27,7 +27,7 @@ build_requires:
 provides:
   WWW::Scraper::ISBN::LOC_Driver:
     file:     lib/WWW/Scraper/ISBN/LOC_Driver.pm
-    version:  0.21
+    version:  0.22
 
 no_index:
   directory:
