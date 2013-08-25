@@ -5,6 +5,7 @@ Revision history for Perl extension WWW::Scraper::ISBN::LOC_Driver.
         - change file dates changed to meet W3CDTF standards.
         - reworked Makefile.PL for clarity.
         - added META.json and updated META.yml.
+        - extended test suite.
 
 0.21    2004-04-17
 	    - Fixed the rest of the author problems, removed the Template::Extract
