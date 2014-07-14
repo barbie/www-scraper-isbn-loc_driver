@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     AUTHOR              => 'Barbie <barbie@cpan.org>',
-    NAME                => 'WWW::Scraper::ISBN::LOC_Driver',
+    NAME                => 'WWW-Scraper-ISBN-LOC_Driver',
     VERSION_FROM        => 'lib/WWW/Scraper/ISBN/LOC_Driver.pm',
     ABSTRACT            => q{Searches Library of Congress' online catalog for book information},
     NO_META             => 1,

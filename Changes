@@ -1,5 +1,7 @@
-Revision history for WWW::Scraper::ISBN::LOC_Driver
-===================================================
+Revision history for WWW-Scraper-ISBN-LOC_Driver
+================================================
+
+        - fixed distribution name in META.
 
 0.24    2014-03-29
         - added LICENSE file.
