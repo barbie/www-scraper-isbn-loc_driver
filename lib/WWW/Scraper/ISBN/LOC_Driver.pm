@@ -29,7 +29,7 @@ sub search {
 	$self->book(undef);
 
     # first, initialize the session:
-    my $post_url = "http://lcweb.loc.gov/cgi-bin/zgate?ACTION=INIT&FORM_HOST_PORT=/prod/www/data/z3950/locils.html,z3950.loc.gov,7090";
+    my $post_url = "http://www.loc.gov/cgi-bin/zgate?ACTION=INIT&FORM_HOST_PORT=/prod/www/data/z3950/locils.html,z3950.loc.gov,7090";
     my $ua = new LWP::UserAgent;
     my $res = $ua->request(GET $post_url);
     my $doc = "";
@@ -49,7 +49,7 @@ sub search {
         return 0;
     }
 
-    $post_url = "http://lcweb.loc.gov/cgi-bin/zgate";
+    $post_url = "http://www.loc.gov/cgi-bin/zgate";
     $res = $ua->request(
         POST $post_url, 
         Referer => $post_url, 
@@ -61,11 +61,13 @@ sub search {
             DBNAME      => 'VOYAGER', 
             MAXRECORDS  => '20', 
             RECSYNTAX   => '1.2.840.10003.5.10', 
+            STRUCT_1    => '1', 
+            STRUCT_2    => '1', 
             STRUCT_3    => '1', 
             SESSION_ID  => $sessionID
         ]
     );
-        
+
     $doc = "";
         
     # get page
