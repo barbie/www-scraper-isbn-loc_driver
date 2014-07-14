@@ -26,7 +26,8 @@
                 "perl": "5.006",
                 "HTTP::Request::Common": "1.19",
                 "LWP::UserAgent": "2.00",
-                "WWW::Scraper::ISBN::Driver": "0.15"
+                "WWW::Scraper::ISBN": "1.00",
+                "WWW::Scraper::ISBN::Driver": "1.00"
             }
         },
         "test" : {

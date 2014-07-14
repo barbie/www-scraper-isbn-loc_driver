@@ -17,7 +17,8 @@ WriteMakefile(
         # runtime prereqs
         'HTTP::Request::Common'         => '1.19',
         'LWP::UserAgent'                => '2.00',
-        'WWW::Scraper::ISBN::Driver'    => '0.15',
+        'WWW::Scraper::ISBN'            => '1.00',
+        'WWW::Scraper::ISBN::Driver'    => '1.00',
 
         # build/test prereqs
         'IO::File'                      => '0',
