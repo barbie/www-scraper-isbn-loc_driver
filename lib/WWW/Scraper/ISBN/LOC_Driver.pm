@@ -3,13 +3,24 @@ package WWW::Scraper::ISBN::LOC_Driver;
 use strict;
 use warnings;
 
+our $VERSION = '0.24';
+
+#--------------------------------------------------------------------------
+
+###########################################################################
+# Inheritence
+
+our @ISA = qw(WWW::Scraper::ISBN::Driver);
+
+###########################################################################
+# Modules
+
 use HTTP::Request::Common;
 use LWP::UserAgent;
 use WWW::Scraper::ISBN::Driver;
 
-our @ISA = qw(WWW::Scraper::ISBN::Driver);
-
-our $VERSION = '0.24';
+###########################################################################
+# Public Interface
 
 sub search {
 	my $self = shift;
@@ -151,8 +162,8 @@ Requires the following modules be installed:
 
 Searches for book information from the Library of Congress's online catalog.  
 May be slower than most drivers, because it must first create a session and 
-grab a session ID before perforiming a search.  This payoff may be worth it, if 
-the catalog is more comprehensive than others, but it may not.  Use your best 
+grab a session ID before perforiming a search. This payoff may be worth it, if
+the catalog is more comprehensive than others, but it may not. Use your best 
 judgment.
 
 =head1 METHODS
