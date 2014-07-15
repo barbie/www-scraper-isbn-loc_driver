@@ -108,6 +108,7 @@ sub search {
 
         # trim and clean data
         for my $key (keys %data) {
+            next    unless($data{$key});
             $data{$key} =~ s/\n//g;
             $data{$key} =~ s/ +/ /g;
         }
