@@ -25,6 +25,8 @@ use WWW::Scraper::ISBN::Driver;
 sub search {
 	my $self = shift;
 	my $isbn = shift;
+    my %data;
+
 	$self->found(0);
 	$self->book(undef);
 
@@ -32,7 +34,7 @@ sub search {
     my $post_url = "http://www.loc.gov/cgi-bin/zgate?ACTION=INIT&FORM_HOST_PORT=/prod/www/data/z3950/locils.html,z3950.loc.gov,7090";
     my $ua = new LWP::UserAgent;
     my $res = $ua->request(GET $post_url);
-    my $doc = "";
+    my $doc = '';
         
     # get page
     # removes blank lines, DOS line feeds, and leading spaces.
@@ -40,7 +42,7 @@ sub search {
     $doc =~ s/\r//g;  
     $doc =~ s/^\s+//g;
 
-	my $sessionID = "";
+	my $sessionID = '';
 
 	unless ( ($sessionID) = ($doc =~ /<INPUT NAME="SESSION_ID" VALUE="([^"]*)" TYPE="HIDDEN">/i) ) {
 		print "Error starting LOC Query session.\n" if $self->verbosity;
@@ -68,7 +70,7 @@ sub search {
         ]
     );
 
-    $doc = "";
+    $doc = '';
         
     # get page
     # removes blank lines, DOS line feeds, and leading spaces.
@@ -77,14 +79,12 @@ sub search {
     $doc =~ s/^\s+//g;
 
 	if ( (my $book_data) = ($doc =~ /.*<PRE>(.*)<\/PRE>.*/is) ) {
-        my $author = "";
-        my @author_lines;
-        my $other_authors;
-        my $title;
-        my $edition = 'n/a';
-        my $volume = 'n/a';
         print $book_data if ($self->verbosity > 1);
 
+        my @author_lines;
+        my $other_authors;
+
+        # get author field
         while ($book_data =~ s/uthor(s)?:\s+(\D+?)(?:, [0-9-.]*|\.)$/if (($1) && ($1 eq "s")) { "uthors:"; } else { "" }/me) { 
 			my $temp = $2;
 			$temp =~ s/ ([A-Z])$/ $1./; # trailing middle initial
@@ -95,33 +95,47 @@ sub search {
         foreach my $line(@author_lines) {
             $line =~ s/(\w+), (.*)/$2 $1/;
         }
-        $author = join ", ", @author_lines;
-                                
-        $book_data =~ /Title:\s+((.*)\n(\s+(.*)\n)*)/;
-        $title = $1;
-        $title =~ s/\n//g;
-        $title =~ s/ +/ /g;
-        $title =~ s/(.*) \/(.*)/$1/;
-        print "title: $title\n" if ($self->verbosity > 1);;
+        $data{author} = join ", ", @author_lines;
+
+        # get other fields
+        ($data{title})                      = $book_data =~ /Title:\s+((.*)\n(\s+(.*)\n)*)/;
+        ($data{edition})                    = $book_data =~ /Edition:\s+(.*)\n/;
+		($data{volume})                     = $book_data =~ /Volume:\s+(.*)\n/;
+		($data{dewey})                      = $book_data =~ /Dewey No.:\s+(.*)\n/;
+		($data{publisher},$data{pubdate})   = $book_data =~ /Published:\s+[^:]+:\s+(.*), c(\d+)\.\n/;
+		($data{pages},$data{height})        = $book_data =~ /Description:\s+\w+,\s+(\d+)\s+:[^;]+;\s+(\d+)\s*cm.\n/;
+		($data{isbn10},$data{binding})      = $book_data =~ /ISBN:\s+(\d+)\s+\(([^\)]+)\)\n/;
+
+        # trim and clean data
+        for my $key (keys %data) {
+            $data{$key} =~ s/\n//g;
+            $data{$key} =~ s/ +/ /g;
+        }
         
-        if ($book_data =~ /Edition:\s+(.*)\n/) {
-			$edition = $1;
-		} 
-		if ($book_data =~ /Volume:\s+(.*)\n/) {
-			$volume = $1;
-		}
-		
-        print "author: $author\n"   if ($self->verbosity > 1);
-        print "edition: $edition\n" if ($self->verbosity > 1);
-        print "volume: $volume\n"   if ($self->verbosity > 1);
+        # reformat and default fields
+        $data{title} =~ s/(.*) \/(.*)/$1/;
+        $data{height} *= 10;    # cm => mm
+        $data{author}  ||= '';
+        $data{edition} ||= 'n/a';
+        $data{volume}  ||= 'n/a';
+
+        # print data if in verbose mode
+        if($self->verbosity > 1) {
+            for my $key (keys %data) {
+                printf "%-8s %s\n", "$key:", $data{$key};   
+            }
+        }
         
+        # store book data
         my $bk = {
             'isbn'      => $isbn,
-            'author'    => $author,
-            'title'     => $title,
-            'edition'   => $edition,
-            'volume'    => $volume
+            'isbn13'    => $isbn,
+            'ean13'     => $isbn
         };
+
+        $bk->{isbn10} = $data{isbn10} if(length($data{isbn10}) == 10);
+        $bk->{$_} = $data{$_} for(qw(author title edition volume dewey publisher pubdate pages height binding));
+
 		$self->book($bk);
 		$self->found(1);
         return $self->book;
@@ -178,11 +192,20 @@ Starts a session, and then passes the appropriate form fields to the LOC's
 page.  If a valid result is returned, the following fields are available 
 via the book hash:
 
-  isbn
-  author
+  isbn          (now returns isbn13)
+  isbn10        
+  isbn13
+  ean13         (industry name)
   title
+  author
   edition
   volume
+  dewey
+  publisher
+  pubdate
+  binding       (if known)
+  pages         (if known)
+  height        (if known) (in millimetres)
 
 =back
 
