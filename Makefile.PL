@@ -21,6 +21,7 @@ WriteMakefile(
         'WWW::Scraper::ISBN::Driver'    => '1.00',
 
         # build/test prereqs
+        'Data::Dumper'                  => '0',
         'IO::File'                      => '0',
         'Test::More'                    => '0.70'
 

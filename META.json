@@ -1,6 +1,6 @@
 {
     "name": "WWW-Scraper-ISBN-LOC_Driver",
-    "version": "0.24",
+    "version": "0.25",
     "abstract": "Searches Library of Congress' online catalog for book information",
     "author": [
       "Andy Schamp <andy@schamp.net>",
@@ -32,6 +32,7 @@
         },
         "test" : {
             "requires": {
+                "Data::Dumper": "0",
                 "IO::File": "0",
                 "Test::More": "0.70"
             },
@@ -47,7 +48,7 @@
     "provides": {
         "WWW::Scraper::ISBN::LOC_Driver": {
             "file": "lib/WWW/Scraper/ISBN/LOC_Driver.pm",
-            "version": "0.24"
+            "version": "0.25"
         }
     },
     "no_index": {

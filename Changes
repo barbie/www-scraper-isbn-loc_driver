@@ -1,6 +1,7 @@
 Revision history for WWW-Scraper-ISBN-LOC_Driver
 ================================================
 
+0.25    2014-07-22
         - fixed distribution name in META.
         - upgrade to WWW-Scraper-ISBN-1.00.
         - fixed sub-domain name of form.
