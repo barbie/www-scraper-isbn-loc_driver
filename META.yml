@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:                     WWW-Scraper-ISBN-LOC_Driver
 version:                  0.25
-abstract:                 Searches Library of Congress' online catalog for book information
+abstract:                 Search driver for the Library of Congress' online catalog for book information
 author:
   - Andy Schamp <andy@schamp.net>
   - Barbie <barbie@cpan.org>
