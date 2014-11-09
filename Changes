@@ -3,6 +3,7 @@ Revision history for WWW-Scraper-ISBN-LOC_Driver
 
         - fixed license fields in META.json to be lists.
         - abstract now consistent with other drivers.
+        - extended functional tests.
 
 0.25    2014-07-22
         - fixed distribution name in META.
